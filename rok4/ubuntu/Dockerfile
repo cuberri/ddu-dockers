@@ -34,12 +34,10 @@ RUN cp /usr/local/rok4/config/services.conf.sample /usr/local/rok4/config/servic
 # Then, we configure some directives for our build
 RUN sed -i 's#<logFilePrefix>/var/tmp/rok4</logFilePrefix>#<logFilePrefix>/var/log/rok4</logFilePrefix>#g' /usr/local/rok4/config/server.conf # log dir more "standard"
 RUN sed -i 's#<serverPort></serverPort>#<serverPort>127.0.0.1:9000</serverPort>#g' /usr/local/rok4/config/server.conf # Standalone mode
+RUN sed -i 's#../config#/usr/local/rok4/config#g' /usr/local/rok4/config/server.conf
 
 # Running ROK4
 EXPOSE 9000
 
-#ENTRYPOINT ["/usr/local/rok4/bin/rok4"]
-
-
-RUN echo date > /root/docker-build-date.txt
+CMD ["/usr/local/rok4/bin/rok4", "-f", "/usr/local/rok4/config/server.conf"]
 
